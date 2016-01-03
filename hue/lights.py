@@ -1,10 +1,10 @@
 from phue import Bridge
 b = Bridge('192.168.1.65')
 
-dans_lights = ['Dans Window', 'Dans Bookcase', 'Dans Globe', 'Dans Desk']
+dans_lights = ['Dans room 1', 'Dans Window', 'Dans Bookcase', 'Dans Globe', 'Dans Desk']
 
 def dans_lights_on():
-	b.set_light(dans_lights, 'on', True)
+	b.set_light(dans_lights, {'on': True, 'bri': 254})
 
 def dans_lights_off():
 	b.set_light(dans_lights, 'on', False)
