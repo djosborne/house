@@ -1,0 +1,3 @@
+*.pyc
+netdetect/users.py
+netdetect/whose_home.json
