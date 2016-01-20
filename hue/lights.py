@@ -49,8 +49,11 @@ class MoodRoom(object):
         for light in self.lights:
             hue_light = b.get_light(light.id)
             for option, value in light.default_mode.iteritems():
-                if hue_light['state'][option] != value:
-                    return True
+                try:
+		    if hue_light['state'][option] != value:
+                        return True
+		except TypeError:
+		    print "Broken light: %s" % light.id 
         return False
 
     def activate_default_mode(self):
