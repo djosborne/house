@@ -73,6 +73,14 @@ dans_room = MoodRoom('Dans Room',
                     Light('Dans Globe', {'on': False}, {'on': True, 'bri': 254}),
                     Light('Dans Desk', {'on': False}, {'on': True, 'bri': 254})])
 
+dans_room_moody = MoodRoom('Dans Room Moody',
+                   [# TV Area
+                       Light('Dans room 1', {'on': True, 'sat': 0, 'bri': 254, 'colorloop': True}, {'on': False}),
+                       Light('Dans Window', {'on': True, 'sat': 64, 'bri': 254, 'colorloop': True}, {'on': False}),
+                       Light('Dans Bookcase', {'on': True, 'sat': 128, 'bri': 254, 'colorloop': True}, {'on': False}),
+                       Light('Dans Globe', {'on': True, 'sat': 200, 'bri': 254, 'colorloop': True}, {'on': False}),
+                       Light('Dans Desk', {'on': True, 'sat': 160, 'bri': 254, 'colorloop': True}, {'on': False})])
+
 
 living_room_moody = MoodRoom('Living Room - Moody',
                    [# TV Area
@@ -131,6 +139,7 @@ living_room = MoodRoom('Living Room',
 
 
 room_by_mac = {'a0:02:dc:d3:42:4d': dans_room,
+               'a0:02:dc:26:d7:7a': dans_room_moody,
                '74:75:48:dc:2b:2f': living_room,
                '00:bb:3a:8c:53:14': living_room_moody}
 
