@@ -42,6 +42,9 @@ class MoodRoom(object):
         self.nickname = nickname
         self.lights = lights
 
+    def __repr__(self):
+        return self.nickname
+
     def not_in_default_mode(self):
         """
         return True if not in default mode.
@@ -75,11 +78,11 @@ dans_room = MoodRoom('Dans Room',
 
 dans_room_moody = MoodRoom('Dans Room Moody',
                    [# TV Area
-                       Light('Dans room 1', {'on': True, 'sat': 0, 'bri': 254, 'colorloop': True}, {'on': False}),
-                       Light('Dans Window', {'on': True, 'sat': 64, 'bri': 254, 'colorloop': True}, {'on': False}),
-                       Light('Dans Bookcase', {'on': True, 'sat': 128, 'bri': 254, 'colorloop': True}, {'on': False}),
-                       Light('Dans Globe', {'on': True, 'sat': 200, 'bri': 254, 'colorloop': True}, {'on': False}),
-                       Light('Dans Desk', {'on': True, 'sat': 160, 'bri': 254, 'colorloop': True}, {'on': False})])
+                       Light('Dans room 1', {'on': True, 'sat': 0, 'bri': 254, 'effect': 'colorloop', 'colormode': 'hs'}, {'on': False}),
+                       Light('Dans Window', {'on': True, 'sat': 64, 'bri': 254, 'effect': 'colorloop', 'colormode': 'hs'}, {'on': False}),
+                       Light('Dans Bookcase', {'on': True, 'sat': 128, 'bri': 254, 'effect': 'colorloop', 'colormode': 'hs'}, {'on': False}),
+                       Light('Dans Globe', {'on': True, 'sat': 200, 'bri': 254, 'effect': 'colorloop', 'colormode': 'hs'}, {'on': False}),
+                       Light('Dans Desk', {'on': True, 'sat': 160, 'bri': 254, 'effect': 'colorloop', 'colormode': 'hs'}, {'on': False})])
 
 
 living_room_moody = MoodRoom('Living Room - Moody',
@@ -142,21 +145,27 @@ room_by_mac = {'a0:02:dc:d3:42:4d': dans_room,
                'a0:02:dc:26:d7:7a': dans_room_moody,
                '74:75:48:dc:2b:2f': living_room,
                '00:bb:3a:8c:53:14': living_room_moody}
-
+seen_arps = []
 def arp_display(pkt):
     try:
         if pkt[ARP].op == 1: #who-has (request)
-            if pkt[ARP].psrc == '0.0.0.0': # ARP Probe
+            #if pkt[ARP].psrc == '0.0.0.0': # ARP Probe
+            if True:
                 mac = pkt[ARP].hwsrc
                 try:
                     room = room_by_mac[mac]
+                except KeyError:
+                    if mac not in seen_arps: 
+                        print "Unknown Arp: " + mac
+                        seen_arps.append(mac)
+                else:
                     print room
                     if room.not_in_default_mode():
                         room.activate_default_mode()
                     else:
                         room.activate_backup_mode()
-                except KeyError:
-                  print "Unknown Arp: " + pkt[ARP].hwsrc
+            else:
+                print pkt[ARP].psrc
     except IndexError:
         pass
 print sniff(prn=arp_display, filter="arp", store=0, count=0)
