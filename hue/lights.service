@@ -1,0 +1,10 @@
+[Unit]
+Description=Dans Room Lights
+
+[Service]
+Type=simple
+ExecStart=/home/dano/projects/house/hue/lights.sh
+User=root
+
+[Install]
+WantedBy=multi-user.target
